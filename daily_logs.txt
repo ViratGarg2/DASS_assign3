@@ -1,2 +1,8 @@
-Garg,2025-03-25,1,Bun,2
-Garg,2025-03-25,1,Tomato,50
+Garg,2025-03-25,1,Loaded Meal,Bun,2
+Garg,2025-03-25,1,Loaded Meal,Tomato,50
+Garg,2025-03-25,1,Loaded Meal,Tomato,3
+Garg,2025-03-25,1,Loaded Meal,Cheese,2
+Garg,2025-03-25,1,Loaded Meal,Tomato,3
+Garg,2025-03-25,1,Loaded Meal,Cheese,2
+Virat,2025-03-25,2,Tomato Jam,Tomato,10
+Virat,2025-03-25,1,Burger,Fruit,3

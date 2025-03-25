@@ -260,7 +260,7 @@ fn add_meal(products: &HashMap<String, Product>, meals: &mut Vec<Meal>) {
 
     let mut items = Vec::new();
     loop {
-        println!("Enter product name (or 'done' to finish):");
+        println!("Enter product name (or 'done' to finish,'cancel' to end):");
         let mut product_name = String::new();
         io::stdin().read_line(&mut product_name).unwrap();
         let product_name = product_name.trim().to_string();
@@ -270,7 +270,7 @@ fn add_meal(products: &HashMap<String, Product>, meals: &mut Vec<Meal>) {
             }
         }
         if product_name == "done" { break; }
-
+        if product_name == "cancel" { return; }
         if !products.contains_key(&product_name) {
             println!("Product not found. Please add the product first.");
             continue;
@@ -468,14 +468,15 @@ fn load_daily_logs() -> HashMap<(String, NaiveDate), DailyLog> {
                 let username = parts[0].to_string();
                 let date = NaiveDate::parse_from_str(parts[1], "%Y-%m-%d").unwrap();
                 let servings = parts[2].parse::<f32>().unwrap_or(1.0);
-                let product_name = parts[3].to_string();
-                let quantity = parts[4].parse::<f32>().unwrap_or(0.0);
+                let meal_name = parts[3].to_string();
+                let product_name = parts[4].to_string();
+                let quantity = parts[5].parse::<f32>().unwrap_or(0.0);
 
                 let log_key = (username.clone(), date);
                 daily_logs.entry(log_key)
                     .or_insert(DailyLog { date, meals: Vec::new() })
                     .meals.push(Meal {
-                        name: "Loaded Meal".to_string(),
+                        name: meal_name,
                         items: vec![(product_name, quantity)],
                         servings,
                     });
@@ -490,10 +491,11 @@ fn save_daily_logs(daily_logs: &HashMap<(String, NaiveDate), DailyLog>) {
     for ((username, date), log) in daily_logs {
         for meal in &log.meals {
             for (product_name, quantity) in &meal.items {
-                writeln!(file, "{},{},{},{},{}", 
+                writeln!(file, "{},{},{},{},{},{}", 
                     username, 
-                    date.format("%Y-%m-%d"), 
-                    meal.servings, 
+                    date.format("%Y-%m-%d"),
+                    meal.servings,
+                    meal.name,
                     product_name, 
                     quantity
                 ).unwrap();
